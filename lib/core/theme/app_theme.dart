@@ -5,6 +5,7 @@ class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'Helvetica',
       colorScheme: ColorScheme.light(
         primary: AppColors.primary,
         primaryContainer: AppColors.primaryLight,
@@ -101,6 +102,7 @@ class AppTheme {
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'Helvetica',
       colorScheme: ColorScheme.dark(
         primary: AppColors.primary,
         primaryContainer: AppColors.primaryDark,

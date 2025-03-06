@@ -56,6 +56,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +66,7 @@ dev_dependencies:
   build_runner: ^2.4.8
   injectable_generator: ^2.4.1
   json_serializable: ^6.7.1
+  freezed: ^2.4.7
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -114,3 +116,18 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: Helvetica
+      fonts:
+        - asset: assets/fonts/Helvetica.ttf
+        - asset: assets/fonts/Helvetica-Oblique.ttf
+          style: italic
+        - asset: assets/fonts/helvetica-light-587ebe5a59211.ttf
+          weight: 300
+        - asset: assets/fonts/helvetica-compressed-5871d14b6903a.otf
+        - asset: assets/fonts/helvetica-rounded-bold-5871d05ead8de.otf
+          weight: 700
