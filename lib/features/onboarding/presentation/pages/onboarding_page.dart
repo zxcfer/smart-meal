@@ -82,7 +82,7 @@ class OnboardingPage extends StatelessWidget {
                     height: 56,
                     child: ElevatedButton(
                       onPressed: () {
-                        context.router.replace(const HomeRoute());
+                        context.router.replace(const LoginRoute());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
