@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ActivityLevelPage(),
       );
     },
+    AllergiesRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AllergiesPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -74,6 +80,20 @@ class ActivityLevelRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ActivityLevelRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AllergiesPage]
+class AllergiesRoute extends PageRouteInfo<void> {
+  const AllergiesRoute({List<PageRouteInfo>? children})
+      : super(
+          AllergiesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AllergiesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

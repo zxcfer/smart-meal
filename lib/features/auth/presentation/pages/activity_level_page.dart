@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_meal/core/presentation/widgets/bottom_bar.dart';
+import 'package:smart_meal/core/router/app_router.dart';
 import 'package:smart_meal/core/theme/app_colors.dart';
 
 @RoutePage()
@@ -11,9 +13,6 @@ class ActivityLevelPage extends StatefulWidget {
 }
 
 class _ActivityLevelPageState extends State<ActivityLevelPage> {
-  static const _textStyles = _TextStyles();
-  static const _spacing = _Spacing();
-
   ActivityLevel? _selectedLevel;
 
   @override
@@ -53,7 +52,7 @@ class _ActivityLevelPageState extends State<ActivityLevelPage> {
                 ),
               ),
             ),
-            _BottomBar(
+            BottomBar(
               onBackPressed: () => context.router.pop(),
               onNextPressed: _selectedLevel != null ? _handleNext : null,
             ),
@@ -78,7 +77,7 @@ class _ActivityLevelPageState extends State<ActivityLevelPage> {
   }
 
   void _handleNext() {
-    // TODO: Implement next action
+    context.router.push(const AllergiesRoute());
   }
 }
 
@@ -145,13 +144,6 @@ class _TextStyles {
     fontSize: 16,
     height: 1.4,
     letterSpacing: -0.3,
-  );
-
-  static const button = TextStyle(
-    color: Colors.white,
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    letterSpacing: -0.5,
   );
 }
 
@@ -274,84 +266,6 @@ class _ActivityOption extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _BottomBar extends StatelessWidget {
-  const _BottomBar({
-    required this.onBackPressed,
-    required this.onNextPressed,
-  });
-
-  final VoidCallback onBackPressed;
-  final VoidCallback? onNextPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        border: Border(
-          top: BorderSide(
-            color: Colors.white.withOpacity(0.1),
-          ),
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: AppColors.primary,
-                size: 30,
-              ),
-              onPressed: onBackPressed,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Container(
-              height: 64,
-              decoration: BoxDecoration(
-                color:
-                    onNextPressed != null ? AppColors.primary : Colors.white24,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: onNextPressed != null
-                    ? [
-                        BoxShadow(
-                          color: AppColors.primary.withOpacity(0.3),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ]
-                    : null,
-              ),
-              child: TextButton(
-                onPressed: onNextPressed,
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: const Text(
-                  'Next',
-                  style: _TextStyles.button,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
