@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_meal/core/router/app_router.dart';
 import 'package:smart_meal/core/theme/app_colors.dart';
 
 @RoutePage()
@@ -161,7 +162,9 @@ class ProfileSetupCompletePage extends StatelessWidget {
                       ],
                     ),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.router.push(const ProfileSetupRoute());
+                      },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(

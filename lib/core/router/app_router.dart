@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_meal/features/auth/presentation/pages/login_page.dart';
 import 'package:smart_meal/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:smart_meal/features/auth/presentation/pages/profile_setup_complete_page.dart';
+import 'package:smart_meal/features/auth/presentation/pages/profile_setup_page.dart';
 import 'package:smart_meal/features/home/presentation/pages/home_page.dart';
 import 'package:smart_meal/features/profile/presentation/pages/profile_page.dart';
 
@@ -35,6 +36,11 @@ class AppRouter extends _$AppRouter {
         ),
         CustomRoute(
           page: ProfileRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideRight,
+          durationInMilliseconds: 400,
+        ),
+        CustomRoute(
+          page: ProfileSetupRoute.page,
           transitionsBuilder: TransitionsBuilders.slideRight,
           durationInMilliseconds: 400,
         ),
