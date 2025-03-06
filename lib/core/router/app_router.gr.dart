@@ -39,6 +39,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ProfilePage(),
       );
     },
+    ProfileSetupCompleteRoute.name: (routeData) {
+      final args = routeData.argsAs<ProfileSetupCompleteRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ProfileSetupCompletePage(
+          key: args.key,
+          userName: args.userName,
+        ),
+      );
+    },
   };
 }
 
@@ -96,4 +106,43 @@ class ProfileRoute extends PageRouteInfo<void> {
   static const String name = 'ProfileRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProfileSetupCompletePage]
+class ProfileSetupCompleteRoute
+    extends PageRouteInfo<ProfileSetupCompleteRouteArgs> {
+  ProfileSetupCompleteRoute({
+    Key? key,
+    required String userName,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ProfileSetupCompleteRoute.name,
+          args: ProfileSetupCompleteRouteArgs(
+            key: key,
+            userName: userName,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileSetupCompleteRoute';
+
+  static const PageInfo<ProfileSetupCompleteRouteArgs> page =
+      PageInfo<ProfileSetupCompleteRouteArgs>(name);
+}
+
+class ProfileSetupCompleteRouteArgs {
+  const ProfileSetupCompleteRouteArgs({
+    this.key,
+    required this.userName,
+  });
+
+  final Key? key;
+
+  final String userName;
+
+  @override
+  String toString() {
+    return 'ProfileSetupCompleteRouteArgs{key: $key, userName: $userName}';
+  }
 }

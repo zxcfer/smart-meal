@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smart_meal/core/constants/app_images.dart';
+import 'package:smart_meal/core/router/app_router.dart';
 
 class SocialLoginBottomSheet extends StatefulWidget {
   const SocialLoginBottomSheet({super.key});
@@ -60,21 +62,30 @@ class _SocialLoginBottomSheetState extends State<SocialLoginBottomSheet>
                 _SocialLoginButton(
                   icon: AppImages.googleIcon,
                   text: 'Continue with Google',
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushRoute(
+                        ProfileSetupCompleteRoute(userName: 'Test user'));
+                  },
                   animation: _getDelayedAnimation(0),
                 ),
                 const SizedBox(height: 16),
                 _SocialLoginButton(
                   icon: AppImages.facebookIcon,
                   text: 'Continue with Facebook',
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushRoute(
+                        ProfileSetupCompleteRoute(userName: 'Test user'));
+                  },
                   animation: _getDelayedAnimation(1),
                 ),
                 const SizedBox(height: 16),
                 _SocialLoginButton(
                   icon: AppImages.appleBlackIcon,
                   text: 'Continue with Apple',
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushRoute(
+                        ProfileSetupCompleteRoute(userName: 'Test user'));
+                  },
                   animation: _getDelayedAnimation(2),
                 ),
               ],

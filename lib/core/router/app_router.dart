@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:smart_meal/features/auth/presentation/pages/login_page.dart';
 import 'package:smart_meal/features/auth/presentation/pages/onboarding_page.dart';
+import 'package:smart_meal/features/auth/presentation/pages/profile_setup_complete_page.dart';
 import 'package:smart_meal/features/home/presentation/pages/home_page.dart';
 import 'package:smart_meal/features/profile/presentation/pages/profile_page.dart';
 
@@ -18,6 +20,11 @@ class AppRouter extends _$AppRouter {
         ),
         CustomRoute(
           page: LoginRoute.page,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          durationInMilliseconds: 400,
+        ),
+        CustomRoute(
+          page: ProfileSetupCompleteRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
           durationInMilliseconds: 400,
         ),
