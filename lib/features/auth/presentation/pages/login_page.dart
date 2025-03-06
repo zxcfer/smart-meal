@@ -3,10 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smart_meal/core/constants/app_images.dart';
 import 'package:smart_meal/core/theme/app_colors.dart';
+import 'package:smart_meal/features/auth/presentation/widgets/social_login_bottom_sheet.dart';
 
 @RoutePage()
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
+
+  void _showSocialLoginBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      enableDrag: true,
+      isDismissible: true,
+      useSafeArea: true,
+      
+      barrierColor: Colors.transparent,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: const SocialLoginBottomSheet(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +57,17 @@ class LoginPage extends StatelessWidget {
                     'Smart Meal',
                     style: TextStyle(
                       color: AppColors.primary,
-                      fontSize: 48,
+                      fontSize: 40,
                       fontWeight: FontWeight.w600,
                       height: 1.1,
                     ),
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'The smarter way to live\na healthier life',
+                    'The smarter way to live a healthier life',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 26,
                       fontWeight: FontWeight.w600,
                       height: 1.2,
                     ),
@@ -57,7 +77,7 @@ class LoginPage extends StatelessWidget {
                     width: double.infinity,
                     height: 56,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => _showSocialLoginBottomSheet(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
@@ -97,7 +117,9 @@ class LoginPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const SizedBox(width: 14),
+                      SizedBox(
+                        width: 10,
+                      ),
                       const Text(
                         'Don\'t have an account? ',
                         style: TextStyle(
@@ -118,6 +140,7 @@ class LoginPage extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 32),
                 ],
               ),
             ),

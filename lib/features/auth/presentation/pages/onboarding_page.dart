@@ -17,29 +17,14 @@ class OnboardingPage extends StatelessWidget {
         children: [
           // Background Image with Overlay
           Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Image.asset(
-                AppImages.onboardingImage,
-                fit: BoxFit.cover,
-              )),
-
-          // Container(
-          //   decoration: BoxDecoration(
-          //     gradient: LinearGradient(
-          //       begin: Alignment.topCenter,
-          //       end: Alignment.bottomCenter,
-          //       colors: [
-          //         Colors.black.withOpacity(0.3),
-          //         Colors.black.withOpacity(0.7),
-          //         Colors.black.withOpacity(0.9),
-          //         Colors.black,
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // Content
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Image.asset(
+              AppImages.onboardingImage,
+              fit: BoxFit.cover,
+            ),
+          ),
 
           SafeArea(
             child: Padding(
@@ -52,7 +37,7 @@ class OnboardingPage extends StatelessWidget {
                     'Smart Meal',
                     style: TextStyle(
                       color: AppColors.primary,
-                      fontSize: 48,
+                      fontSize: 40,
                       fontWeight: FontWeight.bold,
                       height: 1.1,
                     ),
@@ -62,17 +47,17 @@ class OnboardingPage extends StatelessWidget {
                     'Instant meal plans from the food you have.',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 30,
+                      fontSize: 26,
                       fontWeight: FontWeight.w600,
                       height: 1.2,
                     ),
                   ),
                   const SizedBox(height: 24),
                   const Text(
-                    'Snap a picture of the food in your pantry,\nfridge and freezer then our AI will create a\nday or weekly meal plan.',
+                    'Snap a picture of the food in your pantry,fridge and freezer then our AI will create a day or weekly meal plan.',
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: 18,
+                      fontSize: 16,
                       height: 1.5,
                     ),
                   ),
