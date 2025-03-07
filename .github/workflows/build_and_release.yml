@@ -68,24 +68,24 @@ jobs:
       - name: List Downloaded Files (Debugging)
         run: ls -R build/app/outputs/flutter-apk/
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1.1.4
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          generate_release_notes: true
+      - name: Delete Previous Release (if exists)
+        run: |
+          RELEASE_ID=$(gh release view ${{ github.ref_name }} --json id --jq '.id' || echo "")
+          if [[ -n "$RELEASE_ID" ]]; then
+            gh release delete ${{ github.ref_name }} --yes
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload APK to Release
-        uses: actions/upload-release-asset@v1
+      - name: Create New GitHub Release (Without Source Code)
+        id: create_release
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/app/outputs/flutter-apk/*.apk
-          asset_name: app-release.apk
-          asset_content_type: application/vnd.android.package-archive
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: false
+          files: build/app/outputs/flutter-apk/*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
