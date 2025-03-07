@@ -4,6 +4,8 @@ import 'package:smart_meal/features/auth/presentation/pages/activity_level_page.
 import 'package:smart_meal/features/auth/presentation/pages/allergies_page.dart';
 import 'package:smart_meal/features/auth/presentation/pages/diet_page.dart';
 import 'package:smart_meal/features/auth/presentation/pages/login_page.dart';
+import 'package:smart_meal/features/auth/presentation/pages/meal_preferences_page.dart';
+import 'package:smart_meal/features/auth/presentation/pages/nutritional_goals_page.dart';
 import 'package:smart_meal/features/auth/presentation/pages/onboarding_page.dart';
 import 'package:smart_meal/features/auth/presentation/pages/profile_setup_complete_page.dart';
 import 'package:smart_meal/features/auth/presentation/pages/profile_setup_page.dart';
@@ -59,6 +61,16 @@ class AppRouter extends _$AppRouter {
         ),
         CustomRoute(
           page: DietRoute.page,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          durationInMilliseconds: 400,
+        ),
+        CustomRoute(
+          page: MealPreferencesRoute.page,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          durationInMilliseconds: 400,
+        ),
+        CustomRoute(
+          page: NutritionalGoalsRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
           durationInMilliseconds: 400,
         ),

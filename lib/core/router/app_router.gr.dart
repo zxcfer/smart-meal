@@ -45,6 +45,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const LoginPage(),
       );
     },
+    MealPreferencesRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MealPreferencesPage(),
+      );
+    },
+    NutritionalGoalsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const NutritionalGoalsPage(),
+      );
+    },
     OnboardingRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -142,6 +154,34 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MealPreferencesPage]
+class MealPreferencesRoute extends PageRouteInfo<void> {
+  const MealPreferencesRoute({List<PageRouteInfo>? children})
+      : super(
+          MealPreferencesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MealPreferencesRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [NutritionalGoalsPage]
+class NutritionalGoalsRoute extends PageRouteInfo<void> {
+  const NutritionalGoalsRoute({List<PageRouteInfo>? children})
+      : super(
+          NutritionalGoalsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NutritionalGoalsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

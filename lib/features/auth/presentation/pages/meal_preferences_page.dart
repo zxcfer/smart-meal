@@ -5,15 +5,15 @@ import 'package:smart_meal/core/router/app_router.dart';
 import 'package:smart_meal/core/theme/app_colors.dart';
 
 @RoutePage()
-class DietPage extends StatefulWidget {
-  const DietPage({super.key});
+class MealPreferencesPage extends StatefulWidget {
+  const MealPreferencesPage({super.key});
 
   @override
-  State<DietPage> createState() => _DietPageState();
+  State<MealPreferencesPage> createState() => _MealPreferencesPageState();
 }
 
-class _DietPageState extends State<DietPage> {
-  final Set<Diet> _selectedDiets = {};
+class _MealPreferencesPageState extends State<MealPreferencesPage> {
+  MealPreference? _selectedPreference;
 
   @override
   Widget build(BuildContext context) {
@@ -31,35 +31,21 @@ class _DietPageState extends State<DietPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 32),
-                      const Center(
-                        child: Text(
-                          'Do you want to follow a specific diet?',
-                          style: _TextStyles.headline,
-                          textAlign: TextAlign.start,
-                        ),
+
+                      Text(
+                        'Meal Preferences',
+                        style: _TextStyles.headline,
+                        textAlign: TextAlign.start,
                       ),
                       const SizedBox(height: 24),
-                      const _ProgressIndicator(progress: 0.8), // 4 of 5
+                      const _ProgressIndicator(progress: 1.0), // 5 of 5
                       const SizedBox(height: 32),
                       const Text(
-                        'I can craft recipes that fit with all popular diet regimes.',
+                        'Select your daily meal preference.',
                         style: _TextStyles.subtitle,
                       ),
                       const SizedBox(height: 32),
-                      ..._buildDietOptions(),
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Text(
-                          '${_selectedDiets.length} Selected',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: -0.5,
-                          ),
-                        ),
-                      ),
+                      ..._buildMealOptions(),
                       const SizedBox(height: 20),
                     ],
                   ),
@@ -68,7 +54,7 @@ class _DietPageState extends State<DietPage> {
             ),
             BottomBar(
               onBackPressed: () => context.router.pop(),
-              onNextPressed: _selectedDiets.isNotEmpty ? _handleNext : null,
+              onNextPressed: _selectedPreference != null ? _handleNext : null,
             ),
           ],
         ),
@@ -76,45 +62,42 @@ class _DietPageState extends State<DietPage> {
     );
   }
 
-  List<Widget> _buildDietOptions() {
-    return Diet.values.map((diet) {
-      final isSelected = _selectedDiets.contains(diet);
+  List<Widget> _buildMealOptions() {
+    return MealPreference.values.map((preference) {
+      final isSelected = _selectedPreference == preference;
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
-        child: _DietOption(
-          title: diet.title,
+        child: _MealOption(
+          title: preference.title,
+          icons: preference.icons,
           isSelected: isSelected,
-          onTap: () => _toggleDiet(diet),
+          onTap: () => _selectPreference(preference),
         ),
       );
     }).toList();
   }
 
-  void _toggleDiet(Diet diet) {
+  void _selectPreference(MealPreference preference) {
     setState(() {
-      if (_selectedDiets.contains(diet)) {
-        _selectedDiets.remove(diet);
-      } else {
-        _selectedDiets.add(diet);
-      }
+      _selectedPreference = preference;
     });
   }
 
   void _handleNext() {
-    context.router.push(const MealPreferencesRoute());
+    context.router.push(const NutritionalGoalsRoute());
   }
 }
 
-enum Diet {
-  lowCarb('Low carb'),
-  lowCarbHighProtein('Low carb, high protein'),
-  keto('Keto'),
-  paleo('Paleo'),
-  lowFat('Low fat'),
-  atkins('Atkins');
+enum MealPreference {
+  oneMeal('1 Meal', '🍴'),
+  twoMeals('2 Meals', '🍽️🍽️'),
+  threeMeals('3 Meals', '🍽️🍽️🍽️'),
+  fourPlusMeals('4+ Meals', '🍽️🍽️🍽️🍽️'),
+  snack('Snack', '🍔');
 
-  const Diet(this.title);
+  const MealPreference(this.title, this.icons);
   final String title;
+  final String icons;
 }
 
 class _TextStyles {
@@ -128,9 +111,8 @@ class _TextStyles {
   );
 
   static const subtitle = TextStyle(
-    color: Colors.white70,
+    color: Colors.white,
     fontSize: 20,
-    fontWeight: FontWeight.w400,
     height: 1.2,
     letterSpacing: -0.5,
   );
@@ -180,14 +162,16 @@ class _ProgressIndicator extends StatelessWidget {
   }
 }
 
-class _DietOption extends StatelessWidget {
-  const _DietOption({
+class _MealOption extends StatelessWidget {
+  const _MealOption({
     required this.title,
+    required this.icons,
     required this.isSelected,
     required this.onTap,
   });
 
   final String title;
+  final String icons;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -205,35 +189,47 @@ class _DietOption extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                letterSpacing: -0.5,
+            Expanded(
+              child: Row(
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    icons,
+                    style: const TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
               ),
             ),
             Container(
-              width: 24,
-              height: 24,
+              width: 32,
+              height: 32,
               decoration: BoxDecoration(
                 color: isSelected ? AppColors.primary : Colors.transparent,
-                border: isSelected
-                    ? null
-                    : Border.all(
-                        color: Colors.white24,
-                        width: 2,
-                      ),
-                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: isSelected ? AppColors.primary : Colors.white24,
+                  width: 2,
+                ),
+                shape: BoxShape.circle,
               ),
               child: isSelected
-                  ? const Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 16,
+                  ? const Center(
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                     )
                   : null,
             ),

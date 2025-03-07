@@ -5,15 +5,16 @@ import 'package:smart_meal/core/router/app_router.dart';
 import 'package:smart_meal/core/theme/app_colors.dart';
 
 @RoutePage()
-class DietPage extends StatefulWidget {
-  const DietPage({super.key});
+class NutritionalGoalsPage extends StatefulWidget {
+  const NutritionalGoalsPage({super.key});
 
   @override
-  State<DietPage> createState() => _DietPageState();
+  State<NutritionalGoalsPage> createState() => _NutritionalGoalsPageState();
 }
 
-class _DietPageState extends State<DietPage> {
-  final Set<Diet> _selectedDiets = {};
+class _NutritionalGoalsPageState extends State<NutritionalGoalsPage> {
+  final Set<NutritionalGoal> _selectedGoals = {};
+  static const _maxSelections = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -31,27 +32,24 @@ class _DietPageState extends State<DietPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 32),
-                      const Center(
-                        child: Text(
-                          'Do you want to follow a specific diet?',
-                          style: _TextStyles.headline,
-                          textAlign: TextAlign.start,
-                        ),
+                      const Text(
+                        'What nutritional related\ngoals do you have?',
+                        style: _TextStyles.headline,
                       ),
                       const SizedBox(height: 24),
-                      const _ProgressIndicator(progress: 0.8), // 4 of 5
+                      const _ProgressIndicator(progress: 0.9),
                       const SizedBox(height: 32),
                       const Text(
-                        'I can craft recipes that fit with all popular diet regimes.',
+                        'You can select up to 3. I\'ll tailor your meal\nplans to help match with your goals.',
                         style: _TextStyles.subtitle,
                       ),
                       const SizedBox(height: 32),
-                      ..._buildDietOptions(),
+                      ..._buildGoalOptions(),
                       const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: Text(
-                          '${_selectedDiets.length} Selected',
+                          '${_selectedGoals.length} of 3 Selected',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -68,7 +66,7 @@ class _DietPageState extends State<DietPage> {
             ),
             BottomBar(
               onBackPressed: () => context.router.pop(),
-              onNextPressed: _selectedDiets.isNotEmpty ? _handleNext : null,
+              onNextPressed: _selectedGoals.isNotEmpty ? _handleNext : null,
             ),
           ],
         ),
@@ -76,44 +74,45 @@ class _DietPageState extends State<DietPage> {
     );
   }
 
-  List<Widget> _buildDietOptions() {
-    return Diet.values.map((diet) {
-      final isSelected = _selectedDiets.contains(diet);
+  List<Widget> _buildGoalOptions() {
+    return NutritionalGoal.values.map((goal) {
+      final isSelected = _selectedGoals.contains(goal);
+      final canSelect = _selectedGoals.length < _maxSelections || isSelected;
       return Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: _DietOption(
-          title: diet.title,
+        padding: const EdgeInsets.only(bottom: 16),
+        child: _GoalOption(
+          title: goal.title,
           isSelected: isSelected,
-          onTap: () => _toggleDiet(diet),
+          onTap: canSelect ? () => _toggleGoal(goal) : null,
         ),
       );
     }).toList();
   }
 
-  void _toggleDiet(Diet diet) {
+  void _toggleGoal(NutritionalGoal goal) {
     setState(() {
-      if (_selectedDiets.contains(diet)) {
-        _selectedDiets.remove(diet);
-      } else {
-        _selectedDiets.add(diet);
+      if (_selectedGoals.contains(goal)) {
+        _selectedGoals.remove(goal);
+      } else if (_selectedGoals.length < _maxSelections) {
+        _selectedGoals.add(goal);
       }
     });
   }
 
   void _handleNext() {
-    context.router.push(const MealPreferencesRoute());
+    context.router.push(const HomeRoute());
   }
 }
 
-enum Diet {
-  lowCarb('Low carb'),
-  lowCarbHighProtein('Low carb, high protein'),
-  keto('Keto'),
-  paleo('Paleo'),
-  lowFat('Low fat'),
-  atkins('Atkins');
+enum NutritionalGoal {
+  loseWeight('Lose weight'),
+  gainWeight('Gain weight'),
+  maintainWeight('Maintain my current weight'),
+  increaseMuscle('Increase lean muscle mass'),
+  eatHealthier('Eat healthier'),
+  reduceRedMeat('Reduce red meat intake');
 
-  const Diet(this.title);
+  const NutritionalGoal(this.title);
   final String title;
 }
 
@@ -180,8 +179,8 @@ class _ProgressIndicator extends StatelessWidget {
   }
 }
 
-class _DietOption extends StatelessWidget {
-  const _DietOption({
+class _GoalOption extends StatelessWidget {
+  const _GoalOption({
     required this.title,
     required this.isSelected,
     required this.onTap,
@@ -189,55 +188,25 @@ class _DietOption extends StatelessWidget {
 
   final String title;
   final bool isSelected;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
+    final isDisabled = onTap == null;
+
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected ? AppColors.primary : Colors.white24,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                letterSpacing: -0.5,
-              ),
-            ),
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                color: isSelected ? AppColors.primary : Colors.transparent,
-                border: isSelected
-                    ? null
-                    : Border.all(
-                        color: Colors.white24,
-                        width: 2,
-                      ),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: isSelected
-                  ? const Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 16,
-                    )
-                  : null,
-            ),
-          ],
+      child: Text(
+        title,
+        style: TextStyle(
+          color: isSelected
+              ? AppColors.primary
+              : isDisabled
+                  ? Colors.white38
+                  : Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.w400,
+          letterSpacing: -0.5,
         ),
       ),
     );
