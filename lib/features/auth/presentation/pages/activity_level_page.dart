@@ -147,12 +147,6 @@ class _TextStyles {
   );
 }
 
-class _Spacing {
-  const _Spacing();
-
-  final buttonHeight = 64.0;
-  final borderRadius = 16.0;
-}
 
 class _ProgressIndicator extends StatelessWidget {
   const _ProgressIndicator({required this.progress});
