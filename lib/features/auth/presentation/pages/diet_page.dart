@@ -1,20 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smart_meal/core/presentation/widgets/bottom_bar.dart';
-import 'package:smart_meal/core/router/app_router.dart';
 import 'package:smart_meal/core/theme/app_colors.dart';
 
 @RoutePage()
-class AllergiesPage extends StatefulWidget {
-  const AllergiesPage({super.key});
+class DietPage extends StatefulWidget {
+  const DietPage({super.key});
 
   @override
-  State<AllergiesPage> createState() => _AllergiesPageState();
+  State<DietPage> createState() => _DietPageState();
 }
 
-class _AllergiesPageState extends State<AllergiesPage> {
-  final Set<Allergy> _selectedAllergies = {};
+class _DietPageState extends State<DietPage> {
+  final Set<Diet> _selectedDiets = {};
 
   @override
   Widget build(BuildContext context) {
@@ -34,34 +32,33 @@ class _AllergiesPageState extends State<AllergiesPage> {
                       const SizedBox(height: 32),
                       const Center(
                         child: Text(
-                          'Allergies',
+                          'Do you want to follow a specific diet?',
                           style: _TextStyles.headline,
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.start,
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const _ProgressIndicator(progress: 0.3),
+                      const _ProgressIndicator(progress: 0.8), // 4 of 5
                       const SizedBox(height: 32),
                       const Text(
-                        'What food allergies do you have?',
+                        'I can craft recipes that fit with all popular diet regimes.',
                         style: _TextStyles.subtitle,
                       ),
                       const SizedBox(height: 32),
-                      if (_selectedAllergies.isNotEmpty) ...[
-                        const Text(
-                          'Selected Allergies',
-                          style: _TextStyles.sectionTitle,
+                      ..._buildDietOptions(),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Text(
+                          '${_selectedDiets.length} Selected',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: -0.5,
+                          ),
                         ),
-                        const SizedBox(height: 16),
-                        ..._buildSelectedAllergies(),
-                        const SizedBox(height: 32),
-                      ],
-                      const Text(
-                        'Allergies',
-                        style: _TextStyles.sectionTitle,
                       ),
-                      const SizedBox(height: 16),
-                      ..._buildUnselectedAllergies(),
                       const SizedBox(height: 20),
                     ],
                   ),
@@ -70,7 +67,7 @@ class _AllergiesPageState extends State<AllergiesPage> {
             ),
             BottomBar(
               onBackPressed: () => context.router.pop(),
-              onNextPressed: _selectedAllergies.isNotEmpty ? _handleNext : null,
+              onNextPressed: _selectedDiets.isNotEmpty ? _handleNext : null,
             ),
           ],
         ),
@@ -78,63 +75,44 @@ class _AllergiesPageState extends State<AllergiesPage> {
     );
   }
 
-  List<Widget> _buildSelectedAllergies() {
-    return _selectedAllergies
-        .map((allergy) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _AllergyOption(
-                title: allergy.title,
-                isSelected: true,
-                onTap: () => _toggleAllergy(allergy),
-              ),
-            ))
-        .toList();
+  List<Widget> _buildDietOptions() {
+    return Diet.values.map((diet) {
+      final isSelected = _selectedDiets.contains(diet);
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: _DietOption(
+          title: diet.title,
+          isSelected: isSelected,
+          onTap: () => _toggleDiet(diet),
+        ),
+      );
+    }).toList();
   }
 
-  List<Widget> _buildUnselectedAllergies() {
-    return Allergy.values
-        .where((allergy) => !_selectedAllergies.contains(allergy))
-        .map((allergy) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _AllergyOption(
-                title: allergy.title,
-                isSelected: false,
-                onTap: () => _toggleAllergy(allergy),
-              ),
-            ))
-        .toList();
-  }
-
-  void _toggleAllergy(Allergy allergy) {
+  void _toggleDiet(Diet diet) {
     setState(() {
-      if (_selectedAllergies.contains(allergy)) {
-        _selectedAllergies.remove(allergy);
+      if (_selectedDiets.contains(diet)) {
+        _selectedDiets.remove(diet);
       } else {
-        _selectedAllergies.add(allergy);
+        _selectedDiets.add(diet);
       }
     });
   }
 
   void _handleNext() {
-    context.router.push(const DietRoute());
+    // TODO: Navigate to next screen
   }
 }
 
-enum Allergy {
-  gluten('Gluten Allergy'),
-  egg('Egg Allergy'),
-  soy('Soy Allergy'),
-  dairy('Dairy Allergy'),
-  nut('Nut Allergy'),
-  shellfish('Shellfish Allergy'),
-  fish('Fish Allergy'),
-  wheat('Wheat Allergy'),
-  corn('Corn Allergy'),
-  sesame('Sesame Allergy'),
-  legume('Legume Allergy'),
-  coconut('Coconut Allergy');
+enum Diet {
+  lowCarb('Low carb'),
+  lowCarbHighProtein('Low carb, high protein'),
+  keto('Keto'),
+  paleo('Paleo'),
+  lowFat('Low fat'),
+  atkins('Atkins');
 
-  const Allergy(this.title);
+  const Diet(this.title);
   final String title;
 }
 
@@ -143,23 +121,16 @@ class _TextStyles {
 
   static const headline = TextStyle(
     color: Colors.white,
-    fontSize: 28,
+    fontSize: 32,
     height: 1.1,
     letterSpacing: -1,
   );
 
   static const subtitle = TextStyle(
-    color: Colors.white,
-    fontSize: 25,
-    fontWeight: FontWeight.w600,
-    height: 1.2,
-    letterSpacing: -0.5,
-  );
-
-  static const sectionTitle = TextStyle(
-    color: Colors.white,
+    color: Colors.white70,
     fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w400,
+    height: 1.2,
     letterSpacing: -0.5,
   );
 }
@@ -208,8 +179,8 @@ class _ProgressIndicator extends StatelessWidget {
   }
 }
 
-class _AllergyOption extends StatelessWidget {
-  const _AllergyOption({
+class _DietOption extends StatelessWidget {
+  const _DietOption({
     required this.title,
     required this.isSelected,
     required this.onTap,
